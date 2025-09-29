@@ -1,2 +1,28 @@
 ========== START : Chaincode Deployment ==========
 [INFO] Packaging chaincode...
+========== START : Chaincode Deployment ==========
+[INFO] Packaging chaincode...
+========== START : Chaincode Deployment ==========
+[INFO] Packaging chaincode...
+========== START : Chaincode Deployment ==========
+[INFO] Packaging chaincode...
+========== START : Chaincode Deployment ==========
+[INFO] Using FABRIC_CFG_PATH: /home/santhankumar/Downloads/Donation Transparency/network/config
+[INFO] Using chaincode path: ../../chaincode
+[INFO] Packaging chaincode...
+[33m2025-09-26 17:40:03.699 IST 0001 WARN[0m [main] [33;1mInitCmd[0m -> CORE_LOGGING_LEVEL is no longer supported, please use the FABRIC_LOGGING_SPEC environment variable
+[33m2025-09-26 17:40:03.699 IST 0002 WARN[0m [main] [33;1mSetOrdererEnv[0m -> CORE_LOGGING_LEVEL is no longer supported, please use the FABRIC_LOGGING_SPEC environment variable
+[INFO] Installing chaincode on peer0.ngo.donation.com...
+[33m2025-09-26 17:40:03.749 IST 0001 WARN[0m [main] [33;1mInitCmd[0m -> CORE_LOGGING_LEVEL is no longer supported, please use the FABRIC_LOGGING_SPEC environment variable
+[31m2025-09-26 17:40:03.749 IST 0002 ERRO[0m [main] [31;1mInitCmd[0m -> Cannot run peer because cannot init crypto, specified path "/etc/hyperledger/fabric/msp" does not exist or cannot be accessed: stat /etc/hyperledger/fabric/msp: no such file or directory
+[ERROR] Chaincode install failed. See ../deployCC.log for details.
+========== START : Chaincode Deployment ==========
+[INFO] Using FABRIC_CFG_PATH: /home/santhankumar/Downloads/Donation Transparency/network/config
+[INFO] Using chaincode path: ../../chaincode
+[INFO] Packaging chaincode...
+[33m2025-09-26 17:40:18.207 IST 0001 WARN[0m [main] [33;1mInitCmd[0m -> CORE_LOGGING_LEVEL is no longer supported, please use the FABRIC_LOGGING_SPEC environment variable
+[33m2025-09-26 17:40:18.207 IST 0002 WARN[0m [main] [33;1mSetOrdererEnv[0m -> CORE_LOGGING_LEVEL is no longer supported, please use the FABRIC_LOGGING_SPEC environment variable
+[INFO] Installing chaincode on peer0.ngo.donation.com...
+[33m2025-09-26 17:40:18.235 IST 0001 WARN[0m [main] [33;1mInitCmd[0m -> CORE_LOGGING_LEVEL is no longer supported, please use the FABRIC_LOGGING_SPEC environment variable
+[31m2025-09-26 17:40:18.235 IST 0002 ERRO[0m [main] [31;1mInitCmd[0m -> Cannot run peer because cannot init crypto, specified path "/etc/hyperledger/fabric/msp" does not exist or cannot be accessed: stat /etc/hyperledger/fabric/msp: no such file or directory
+[ERROR] Chaincode install failed. See ../deployCC.log for details.

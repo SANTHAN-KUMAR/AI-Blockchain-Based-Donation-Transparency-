@@ -1,0 +1,213 @@
+---
+# Minimal 2-org (NGO, ORACLE) + single orderer system channel / application channel config
+# No YAML anchors to avoid 'unknown anchor' errors.
+
+################################################################################
+# Capabilities (maps, not arrays)
+################################################################################
+Capabilities:
+  Channel:
+    V2_0: true
+  Orderer:
+    V2_0: true
+  Application:
+    V2_0: true
+
+################################################################################
+# Organizations (base definitions)
+################################################################################
+Organizations:
+  - Name: OrdererMSP
+    ID: OrdererMSP
+    MSPDir: crypto-config/ordererOrganizations/donation.com/msp
+
+  - Name: NGOMSP
+    ID: NGOMSP
+    MSPDir: crypto-config/peerOrganizations/ngo.donation.com/msp
+    AnchorPeers:
+      - Host: peer0.ngo.donation.com
+        Port: 7051
+
+  - Name: ORACLEMSP
+    ID: ORACLEMSP
+    MSPDir: crypto-config/peerOrganizations/oracle.donation.com/msp
+    AnchorPeers:
+      - Host: peer0.oracle.donation.com
+        Port: 9051
+
+################################################################################
+# Channel (default policies + capabilities)
+################################################################################
+Channel:
+  Policies:
+    Readers:
+      Type: ImplicitMeta
+      Rule: "ANY Readers"
+    Writers:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+    Admins:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Admins"
+  Capabilities:
+    V2_0: true
+
+################################################################################
+# Orderer section (single-node etcdraft)
+################################################################################
+Orderer:
+  OrdererType: etcdraft
+  Addresses:
+    - orderer.donation.com:7050
+  EtcdRaft:
+    Consenters:
+      - Host: orderer.donation.com
+        Port: 7050
+        ClientTLSCert: crypto-config/ordererOrganizations/donation.com/orderers/orderer.donation.com/tls/server.crt
+        ServerTLSCert: crypto-config/ordererOrganizations/donation.com/orderers/orderer.donation.com/tls/server.crt
+  BatchTimeout: 2s
+  BatchSize:
+    MaxMessageCount: 10
+    AbsoluteMaxBytes: 99 MB
+    PreferredMaxBytes: 512 KB
+  Policies:
+    Readers:
+      Type: ImplicitMeta
+      Rule: "ANY Readers"
+    Writers:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+    Admins:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Admins"
+    BlockValidation:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+  Organizations:
+    - Name: OrdererMSP
+      ID: OrdererMSP
+      MSPDir: crypto-config/ordererOrganizations/donation.com/msp
+  Capabilities:
+    V2_0: true
+
+################################################################################
+# Application section (defaults)
+################################################################################
+Application:
+  ACLs: {}
+  Policies:
+    Readers:
+      Type: ImplicitMeta
+      Rule: "ANY Readers"
+    Writers:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+    Admins:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Admins"
+    LifecycleEndorsement:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Endorsement"
+    Endorsement:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Endorsement"
+  Capabilities:
+    V2_0: true
+  Organizations: []
+
+################################################################################
+# Profiles
+################################################################################
+Profiles:
+  OrdererGenesis:
+    Channel:
+      Policies:
+        Readers:
+          Type: ImplicitMeta
+          Rule: "ANY Readers"
+        Writers:
+          Type: ImplicitMeta
+          Rule: "ANY Writers"
+        Admins:
+          Type: ImplicitMeta
+          Rule: "MAJORITY Admins"
+      Capabilities:
+        V2_0: true
+    Orderer:
+      OrdererType: etcdraft
+      Addresses:
+        - orderer.donation.com:7050
+      EtcdRaft:
+        Consenters:
+          - Host: orderer.donation.com
+            Port: 7050
+            ClientTLSCert: crypto-config/ordererOrganizations/donation.com/orderers/orderer.donation.com/tls/server.crt
+            ServerTLSCert: crypto-config/ordererOrganizations/donation.com/orderers/orderer.donation.com/tls/server.crt
+      BatchTimeout: 2s
+      BatchSize:
+        MaxMessageCount: 10
+        AbsoluteMaxBytes: 99 MB
+        PreferredMaxBytes: 512 KB
+      Policies:
+        Readers:
+          Type: ImplicitMeta
+          Rule: "ANY Readers"
+        Writers:
+          Type: ImplicitMeta
+          Rule: "ANY Writers"
+        Admins:
+          Type: ImplicitMeta
+          Rule: "MAJORITY Admins"
+        BlockValidation:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+      Organizations:
+        - Name: OrdererMSP
+          ID: OrdererMSP
+          MSPDir: crypto-config/ordererOrganizations/donation.com/msp
+      Capabilities:
+        V2_0: true
+    Consortiums:
+      DonationConsortium:
+        Organizations:
+          - Name: NGOMSP
+            ID: NGOMSP
+            MSPDir: crypto-config/peerOrganizations/ngo.donation.com/msp
+          - Name: ORACLEMSP
+            ID: ORACLEMSP
+            MSPDir: crypto-config/peerOrganizations/oracle.donation.com/msp
+
+  DonationChannel:
+    Consortium: DonationConsortium
+    Application:
+      Policies:
+        Readers:
+          Type: ImplicitMeta
+          Rule: "ANY Readers"
+        Writers:
+          Type: ImplicitMeta
+          Rule: "ANY Writers"
+        Admins:
+          Type: ImplicitMeta
+          Rule: "MAJORITY Admins"
+        LifecycleEndorsement:
+          Type: ImplicitMeta
+          Rule: "MAJORITY Endorsement"
+        Endorsement:
+          Type: ImplicitMeta
+          Rule: "MAJORITY Endorsement"
+      Capabilities:
+        V2_0: true
+      Organizations:
+        - Name: NGOMSP
+          ID: NGOMSP
+          MSPDir: crypto-config/peerOrganizations/ngo.donation.com/msp
+          AnchorPeers:
+            - Host: peer0.ngo.donation.com
+              Port: 7051
+        - Name: ORACLEMSP
+          ID: ORACLEMSP
+          MSPDir: crypto-config/peerOrganizations/oracle.donation.com/msp
+          AnchorPeers:
+            - Host: peer0.oracle.donation.com
+              Port: 9051
